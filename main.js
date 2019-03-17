@@ -52,6 +52,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var routes = [
+    { path: '', redirectTo: 'mobile', 'pathMatch': 'full' },
     { path: 'mobile', loadChildren: './mobile/mobile.module#MobileModule' }
 ];
 var AppRoutingModule = /** @class */ (function () {
@@ -88,7 +89,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<a [routerLink]=\"[ '/mobile']\">Mobile</a>\r\n<router-outlet></router-outlet>\r\n"
+module.exports = "<router-outlet></router-outlet>\r\n"
 
 /***/ }),
 
