@@ -88,7 +88,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<router-outlet></router-outlet>"
+module.exports = "<a [routerLink]=\"[ '/mobile']\">Mobile</a>\r\n<router-outlet></router-outlet>\r\n"
 
 /***/ }),
 
@@ -242,13 +242,16 @@ var CustomHttpClient = /** @class */ (function () {
         if (showToastr === void 0) { showToastr = false; }
         this._configHeaders();
         return this.newHttp.get(this._baseApiUrl + url, this.httpOptions).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["tap"])(function (resp) {
-            if (resp.status === 0 && resp.error.httpStatus === 503) {
-                alert('Session Expired');
+            if (resp.status === 0 && resp.error.httpStatus === 503 && _this.authService.getStoredUser()) {
                 _this.authService.removeUser();
+                alert('Session Expired');
                 _this.router.navigate(['mobile/login']);
             }
-            if (resp.status && showToastr) {
-                _this.showToastr('success', resp.message, '');
+            else if (resp.status === 0 && showToastr) {
+                _this.showToastr('error', resp.error.message, '');
+            }
+            if (resp.status && resp.success && showToastr) {
+                _this.showToastr('success', resp.success.message, '');
             }
             _this.consoleLogData({ method: 'POST', url: url, resp: resp });
         }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["catchError"])(function (err) {
@@ -262,14 +265,16 @@ var CustomHttpClient = /** @class */ (function () {
         if (showToastr === void 0) { showToastr = false; }
         this._configHeaders();
         return this.newHttp.post(this._baseApiUrl + url, data, this.httpOptions).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["tap"])(function (resp) {
-            console.log('--------------->', resp);
-            if (resp.status === 0 && resp.error.httpStatus === 503) {
-                alert('Session Expired');
+            if (resp.status === 0 && resp.error.httpStatus === 503 && _this.authService.getStoredUser()) {
                 _this.authService.removeUser();
+                alert('Session Expired');
                 _this.router.navigate(['mobile/login']);
             }
-            if (resp.status && showToastr) {
-                _this.showToastr('success', resp.message, '');
+            else if (resp.status === 0 && showToastr) {
+                _this.showToastr('error', resp.error.message, '');
+            }
+            if (resp.status && resp.success && showToastr) {
+                _this.showToastr('success', resp.success.message, '');
             }
             // this.consoleLogData({ method: 'POST', url, data, resp });
         }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["catchError"])(function (err) {
